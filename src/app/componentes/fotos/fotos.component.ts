@@ -1,8 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { 
+  Component, 
+  OnInit,
+  ChangeDetectorRef,
+  ElementRef,
+  ViewChild} from '@angular/core';
 import { FotosService } from './fotos.service';
 import { Fotos } from '../../model/fotos.model'
 import { dtLanguageDefinitionPt } from '../../model/datatables.model'
 import { Subject } from 'rxjs';
+
+declare var $: any;
 
 @Component({
   selector: 'app-fotos',
@@ -13,9 +20,16 @@ export class FotosComponent  implements OnInit {
   public fotos: any = []
   public dtOptions: DataTables.Settings = {};
   public dtTrigger: Subject<any> = new Subject<any>
+  public fotoUrl: string = ''
 
-  constructor(private fotosService:FotosService) { }
-  
+
+  @ViewChild("modal-foto", { static: true })
+
+  buttonOpenModalCred!: ElementRef<HTMLButtonElement>;
+
+  constructor(private fotosService:FotosService, private cdr: ChangeDetectorRef,) { }
+ 
+
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -34,5 +48,11 @@ export class FotosComponent  implements OnInit {
       this.dtTrigger.next(null)
 
     })
+  }
+
+  abrirModal(url:string) {
+    this.fotoUrl = url
+     $('#modal-foto').modal('show')
+	  
   }
 }
