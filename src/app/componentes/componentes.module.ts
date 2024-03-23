@@ -21,7 +21,8 @@ import { BrowserModule } from '@angular/platform-browser';
   imports: [
     CommonModule,
     BrowserModule,
-    DataTablesModule
+    DataTablesModule,
+   
   ],
   exports: [
     CabecalhoComponent,

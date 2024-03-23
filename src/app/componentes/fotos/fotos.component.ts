@@ -8,6 +8,7 @@ import { FotosService } from './fotos.service';
 import { Fotos } from '../../model/fotos.model'
 import { dtLanguageDefinitionPt } from '../../model/datatables.model'
 import { Subject } from 'rxjs';
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var $: any;
 
@@ -22,12 +23,8 @@ export class FotosComponent  implements OnInit {
   public dtTrigger: Subject<any> = new Subject<any>
   public fotoUrl: string = ''
 
-
-  @ViewChild("modal-foto", { static: true })
-
-  buttonOpenModalCred!: ElementRef<HTMLButtonElement>;
-
-  constructor(private fotosService:FotosService, private cdr: ChangeDetectorRef,) { }
+  constructor(private fotosService:FotosService, 
+    private spinner: NgxSpinnerService) { }
  
 
   ngOnInit() {
@@ -42,10 +39,11 @@ export class FotosComponent  implements OnInit {
     
       
     };
-
+    this.spinner.show();
     this.fotosService.getFotos().subscribe((retorno: Fotos) => {
       this.fotos = retorno
       this.dtTrigger.next(null)
+      this.spinner.hide()
 
     })
   }
